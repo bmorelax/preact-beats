@@ -29,7 +29,8 @@
     "preact-render-spy": "^1.2.1"
   },
   "dependencies": {
-    "preact": "^8.2.6"
+    "preact": "^8.2.6",
+    "preact-compat": "^3.18.5"
   },
   "jest": {
     "verbose": true,
