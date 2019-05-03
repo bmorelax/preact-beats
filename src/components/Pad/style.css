@@ -1,5 +1,11 @@
-.button {
+.activePad {
 	width: 10vh;
 	height: 10vh;
 	background: blueviolet;
+}
+
+.notActivePad {
+	width: 10vh;
+	height: 10vh;
+	background: rgb(199, 184, 214);
 }

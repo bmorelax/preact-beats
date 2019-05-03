@@ -1,34 +1,34 @@
 import { Component } from 'preact';
 import style from './style';
+import PadGrid from '../PadGrid/index';
 
 class DrumMaschine extends Component {
 	metronom() {
 		let schedulerInterval = 100;
 		this.Interval = setInterval(() => {
-			console.log('interval');
 			this.scheduler();
 		}, schedulerInterval);
 	}
 
 	scheduleNote( beatNumber, time ) {
-		console.log(this.notesInQueue);
 		// push the note on the queue, even if we're not playing.
 		this.notesInQueue.push( { note: beatNumber, time } );
 	
-		if ( (this.state.noteResolution==1) && (beatNumber%2))
+		if ( (this.state.noteResolution===1) && (beatNumber%2))
 			return; // we're not playing non-8th 16th notes
-		if ( (this.state.noteResolution==2) && (beatNumber%4))
+		if ( (this.state.noteResolution===2) && (beatNumber%4))
 			return; // we're not playing non-quarter 8th notes
 	
 		// create an oscillator
 		let osc = this.audioContext.createOscillator();
 		osc.connect( this.audioContext.destination );
+
 		if (beatNumber % 16 === 0)    // beat 0 == high pitch
 			osc.frequency.value = 880.0;
 		else if (beatNumber % 4 === 0 )    // quarter notes = medium pitch
 			osc.frequency.value = 440.0;
 		else                        // other 16th notes = low pitch
-			osc.frequency.value = 220.0;
+			osc.frequency.value = 0.0;
 	
 		osc.start( time );
 		osc.stop( time + this.state.noteLength );
@@ -49,7 +49,7 @@ class DrumMaschine extends Component {
 		this.state.nextNoteTime += 0.25 * secondsPerBeat;
 
 		this.setState({ current16thNote: this.state.current16thNote + 1 });
-		if (this.state.current16thNote == 16) {
+		if (this.state.current16thNote === 16) {
 			this.setState({ current16thNote: 0 });
 		}
 	}
@@ -111,7 +111,7 @@ class DrumMaschine extends Component {
 					</button>
 				</div>
 				<div>
-					{this.state.current16thNote}
+					<PadGrid beatNumber={this.state.current16thNote} />
 				</div>
 			</div>
 		);

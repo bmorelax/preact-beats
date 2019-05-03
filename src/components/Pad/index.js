@@ -3,14 +3,18 @@
 import { Component } from 'preact';
 import style from './style';
 
-class Pad extends Component {
-	render() {
+const Pad = ({ active }) => {
+	console.log(active);
+	if (active) {
 		return (
-			<div class={style.button} onClick={() => console.log('onClick')}>
-					BUM
+			<div class={style.activePad}>
 			</div>
 		);
 	}
-}
+	return (
+		<div class={style.notActivePad}>
+		</div>
+	);
+};
 
 export default Pad;
