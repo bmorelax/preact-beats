@@ -30,7 +30,8 @@
   },
   "dependencies": {
     "preact": "^8.2.6",
-    "preact-compat": "^3.18.5"
+    "preact-compat": "^3.18.5",
+    "waaclock": "^0.5.3"
   },
   "jest": {
     "verbose": true,
