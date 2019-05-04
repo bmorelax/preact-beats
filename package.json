@@ -29,9 +29,11 @@
     "preact-render-spy": "^1.2.1"
   },
   "dependencies": {
+    "bumpkit": "0.2.0",
     "preact": "^8.2.6",
     "preact-compat": "^3.18.5",
-    "waaclock": "^0.5.3"
+    "q": "^1.5.1",
+    "query-string": "^6.5.0"
   },
   "jest": {
     "verbose": true,
