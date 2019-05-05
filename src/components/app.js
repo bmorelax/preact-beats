@@ -1,11 +1,11 @@
 import { h, Component } from 'preact';
-import DrumMachine from '../components/DrumMachine';
+import Sequencer from '../components/Sequencer';
 
 export default class App extends Component {
 	render() {
 		return (
 			<div id="app">
-				<DrumMachine />
+				<Sequencer />
 			</div>
 		);
 	}

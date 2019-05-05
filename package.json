@@ -29,7 +29,7 @@
     "preact-render-spy": "^1.2.1"
   },
   "dependencies": {
-    "bumpkit": "0.2.0",
+    "bumpkit": "0.0.2",
     "preact": "^8.2.6",
     "preact-compat": "^3.18.5",
     "q": "^1.5.1",

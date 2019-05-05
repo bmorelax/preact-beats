@@ -3,16 +3,16 @@
 import { Component } from 'preact';
 import style from './style';
 
-const Pad = ({ active }) => {
-	console.log(active);
+const Pad = ({ active, number, trackNumber }) => {
+	console.log(`Number: ${number} TrackNumber: ${trackNumber}`);
 	if (active) {
 		return (
-			<div class={style.activePad}>
+			<div onClick={() => console.log('test')} class={style.activePad}>
 			</div>
 		);
 	}
 	return (
-		<div class={style.notActivePad}>
+		<div onClick={() => console.log('test')} class={style.notActivePad}>
 		</div>
 	);
 };

@@ -1,10 +1,11 @@
 import { Component } from 'preact';
 import Bumpkit from 'bumpkit';
+import PadGrid from '../PadGrid';
 import Q from 'q';
 import qs from 'query-string';
 import style from './style';
 
-class DrumMaschine extends Component {
+class Sequencer extends Component {
 	changeColor = () => {
 		this.state.color === 'red' ? this.setState({ color: 'green' }) : this.setState({ color: 'red' });
 	}
@@ -107,20 +108,17 @@ class DrumMaschine extends Component {
 	}
 
 	// Load the soundbank
-	loadBank = i => {
-		let bank = this.state.banks[i];
+	loadBank = () => {
 		let clips = this.state.clips;
-		bank.tracks.forEach((track, j) => {
+		this.state.tracks.forEach((track, j) => {
 		  clips[j].pattern = track.pattern;
 		});
 		this.updateClips(clips);
-		let tempo = bank.tempo || false;
+		let tempo = false;
 		if (tempo) {
 		  this.setTempo(tempo);
 		}
-		this.setState({ currentBank: i }, () => {
-		  this.updateUrlParams();
-		});
+		this.updateUrlParams();
 	}
 
 	// ??
@@ -182,7 +180,7 @@ class DrumMaschine extends Component {
 			isPlaying: this.bumpkit.isPlaying
 		}, () => {
 			this.initConnections();
-			this.loadBank(this.state.currentBank);
+			this.loadBank();
 			this.loadBuffers().then(() => {
 			  this.loadSamplers();
 			});
@@ -205,20 +203,15 @@ class DrumMaschine extends Component {
 			samplers: [],
 			currentBank: 0,
 			currentKit: 0,
-			banks: [
-				{
-				  name: 'Init',
-				  tracks: [
-						{ pattern: [1,0,1,0, 0,0,0,0, 0,0,0,0, 0,0,1,0 ] },
-						{ pattern: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0 ] },
-						{ pattern: [1,0,1,0, 1,0,0,0, 0,0,0,0, 0,0,0,0 ] },
-						{ pattern: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 ] },
-						{ pattern: [1,0,0,0, 0,0,1,0, 0,0,0,1, 0,0,0,0 ] },
-						{ pattern: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 ] },
-						{ pattern: [0,0,0,0, 0,1,0,0, 1,0,0,1, 0,0,1,1 ] },
-						{ pattern: [1,1,1,1, 0,0,0,0, 0,0,0,0, 1,0,0,0 ] }
-				  ]
-				}
+			tracks: [
+				{ pattern: [1,0,1,0, 0,0,0,0, 0,0,0,0, 0,0,1,0 ] },
+				{ pattern: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0 ] },
+				{ pattern: [1,0,1,0, 1,0,0,0, 0,0,0,0, 0,0,0,0 ] },
+				{ pattern: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 ] },
+				{ pattern: [1,0,0,0, 0,0,1,0, 0,0,0,1, 0,0,0,0 ] },
+				{ pattern: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 ] },
+				{ pattern: [0,0,0,0, 0,1,0,0, 1,0,0,1, 0,0,1,1 ] },
+				{ pattern: [1,1,1,1, 0,0,0,0, 0,0,0,0, 1,0,0,0 ] }
 			],
 			audio_path: '//jxnblk.s3.amazonaws.com/stepkit',
 			kits: [
@@ -241,18 +234,19 @@ class DrumMaschine extends Component {
 		this.playPause = this.playPause.bind(this);
 		this.changeColor = this.changeColor.bind(this);
 		this.handleTempoChange = this.handleTempoChange.bind(this);
+		this.initBumpkit = this.initBumpkit.bind(this);
 	}
 
 	componentDidMount() {
 		// Initialize Bumkit
-		this.initBumpkit();
+		// Doesnt work because AudioContext only works after user interaction
+		//this.initBumpkit();
 	}
 
 	render() {
-		console.log(this);
 		return (
 			<div>
-				<button onClick={this.play} class={style.button} />
+				<button onClick={this.initBumpkit} class={style.button} />
 				<div>Current Beat: {this.state.beatDur}</div>
 				<div onClick={this.changeColor}>{this.state.color}</div>
 				<button onClick={this.playPause}>PlayPause</button>
@@ -262,9 +256,10 @@ class DrumMaschine extends Component {
 					onChange={this.handleTempoChange}
 				/>
 				<div>CurrentStep: {this.state.currentStep}</div>
+				<PadGrid tracks={this.state.tracks} />
 			</div>
 		);
 	}
 }
 
-export default DrumMaschine;
+export default Sequencer;

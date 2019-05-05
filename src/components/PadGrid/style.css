@@ -2,3 +2,17 @@
 	font-size: 3rem;
 	color: #000;
 }
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  grid-template-rows: repeat(8, 11vh);
+}
+
+.flexContainer {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	background: black;
+	align-items: stretch;
+}
