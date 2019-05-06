@@ -4,15 +4,10 @@
 }
 
 .gridContainer {
-  display: grid;
-  grid-template-columns: repeat(16, 1fr);
-  grid-template-rows: repeat(8, 11vh);
-}
-
-.flexContainer {
-	display: flex;
-	flex-direction: row;
-	width: 100%;
-	background: black;
-	align-items: stretch;
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: repeat(16, 1fr);
+	grid-template-rows: repeat(18, 1fr);
+	justify-items: stretch;
 }

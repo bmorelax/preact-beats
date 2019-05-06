@@ -1,13 +1,7 @@
 .activePad {
-  width: 5vw;  /* Or whatever */
-  height: 5vw; /* Or whatever */
-  margin: auto;  /* Magic! */
 	background: blueviolet;
 }
 
 .notActivePad {
-  width: 5vw;  /* Or whatever */
-  height: 5vw; /* Or whatever */
-  margin: auto;  /* Magic! */
 	background: rgb(199, 184, 214);
 }

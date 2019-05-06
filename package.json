@@ -33,7 +33,9 @@
     "preact": "^8.2.6",
     "preact-compat": "^3.18.5",
     "q": "^1.5.1",
-    "query-string": "^6.5.0"
+    "query-string": "^6.5.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "jest": {
     "verbose": true,

@@ -104,7 +104,8 @@ class Sequencer extends Component {
 	  }
 
 	updateClips = (clips) => {
-		this.setState({ clips });
+		console.log(clips);
+		//this.setState({ clips });
 	}
 
 	// Load the soundbank
@@ -204,7 +205,7 @@ class Sequencer extends Component {
 			currentBank: 0,
 			currentKit: 0,
 			tracks: [
-				{ pattern: [1,0,1,0, 0,0,0,0, 0,0,0,0, 0,0,1,0 ] },
+				{ pattern: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 ] },
 				{ pattern: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0 ] },
 				{ pattern: [1,0,1,0, 1,0,0,0, 0,0,0,0, 0,0,0,0 ] },
 				{ pattern: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 ] },
@@ -235,12 +236,11 @@ class Sequencer extends Component {
 		this.changeColor = this.changeColor.bind(this);
 		this.handleTempoChange = this.handleTempoChange.bind(this);
 		this.initBumpkit = this.initBumpkit.bind(this);
+		this.updateClips = this.updateClips.bind(this);
 	}
 
 	componentDidMount() {
-		// Initialize Bumkit
-		// Doesnt work because AudioContext only works after user interaction
-		//this.initBumpkit();
+		// TODO: Press Start here
 	}
 
 	render() {
@@ -256,7 +256,7 @@ class Sequencer extends Component {
 					onChange={this.handleTempoChange}
 				/>
 				<div>CurrentStep: {this.state.currentStep}</div>
-				<PadGrid tracks={this.state.tracks} />
+				<PadGrid updateClips={this.updateClips} tracks={this.state.tracks} />
 			</div>
 		);
 	}
