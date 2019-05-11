@@ -1,159 +1,145 @@
 import { Component } from 'preact';
+import { connect } from 'preact-redux';
+import {
+	changeColor,
+	changeCurrentStep,
+	changeTempo,
+	initReduxBumpkit,
+	updateLoading,
+	playPause,
+	readyToPlay,
+	start,
+	updateBuffers,
+	updateClips,
+	updateSamplers,
+	updateTracks
+} from '../../actions';
+import Landing from '../LandigPage';
 import Bumpkit from 'bumpkit';
 import PadGrid from '../PadGrid';
 import Q from 'q';
-import qs from 'query-string';
 import style from './style';
 
 class Sequencer extends Component {
 	changeColor = () => {
-		this.state.color === 'red' ? this.setState({ color: 'green' }) : this.setState({ color: 'red' });
-	}
+		this.props.color === 'red'
+			? this.props.changeColor('green')
+			: this.props.changeColor('red');
+	};
 
-	handleTempoChange = (e) => {
-		let tempo = e.target.value;
+	handleTempoChange = event => {
+		let tempo = event.target.value;
 		this.setTempo(tempo);
-	}
-	
-	setTempo = (n) => {
-		this.bumpkit.tempo = n;
-		this.setState({ tempo: this.bumpkit.tempo }, () => {
-		  // Fix this in Bumpkit
-		  if (this.state.isPlaying) {
-				this.state.mixer.master.mute.gain.value = 0;
-				this.playPause();
-				this.playPause();
-				this.state.mixer.master.mute.gain.value = 1;
-		  }
-		  this.updateUrlParams();
-		});
-	}
-	
+	};
 
-	loadKit = (i) => {
-		this.setState({ currentKit: i }, function() {
-		  this.loadBuffers().then(function() {
-				this.loadSamplers();
-		  });
-		  this.updateUrlParams();
-		});
-	}
+	setTempo = tempo => {
+		this.bumpkit.tempo = tempo;
+		this.props.changeTempo(this.bumpkit.tempo);
+	};
 
 	// Play / Pause Bumpkit
 	playPause = () => {
 		if (!this.bumpkit) return false;
 		this.bumpkit.playPause();
-		this.setState({
-		  isPlaying: this.bumpkit.isPlaying
-		});
-	}
+		this.props.playPause(this.bumpkit.isPlaying);
+	};
 
 	loadSamplers = () => {
-		let samplers = this.state.samplers;
-		let bufferKeys = Object.keys(this.state.buffers);
+		let samplers = this.props.samplers;
+		let bufferKeys = Object.keys(this.props.buffers);
 		bufferKeys.forEach((key, i) => {
-		  samplers[i].buffer(this.state.buffers[key]);
+			samplers[i].buffer(this.props.buffers[key]);
 		});
-		this.setState({ samplers }, () => {
-		  console.log('samplers loaded');
-		});
-	}
+		this.props.updateSamplers(samplers);
+	};
 
 	addStepListener = () => {
 		if (!window) return false;
-		console.log(window);
-		window.addEventListener('step', (e) => {
-		  let step = e.detail.step;
-		  this.setState({ currentStep: step });
+		window.addEventListener('step', event => {
+			let step = event.detail.step;
+			console.log(step);
+			this.props.changeCurrentStep(step);
 		});
-	}
-
-	updateUrlParams = () => {
-		if (!window) { return false; }
-		let params = {
-		  tempo: this.state.tempo,
-		  currentKit: this.state.currentKit,
-		  currentBank: this.state.currentBank
-		};
-		let query = '?' + qs.stringify(params);
-		window.history.pushState(params, 'Stepkit', query);
-	}
+	};
 
 	// Load the sounds into the buffer
 	loadBuffers = () => {
+		this.props.updateLoading(true);
 		let deferred = Q.defer();
-		let kit = this.state.kits[this.state.currentKit];
+		let kit = this.props.kits[this.props.currentKit];
 		let samples = kit.samples;
-		let buffers = this.state.buffers;
+		let buffers = this.props.buffers;
 		this.bumpkit.buffers = {};
 		samples.forEach((sample, i) => {
-		  ((index) => {
-				let url = this.state.audio_path + kit.path + '/' + sample;
-				this.bumpkit.loadBuffer(url, (buffer) => {
-			  buffers[index] = buffer;
-			  buffers[index].url = url;
-			  if ( samples.length <= Object.keys(this.bumpkit.buffers).length ) {
-						this.setState({ buffers }, () => {
-				  deferred.resolve();
-						});
-			  }
+			(index => {
+				let url = this.props.audioPath + kit.path + '/' + sample;
+				this.bumpkit.loadBuffer(url, buffer => {
+					buffers[index] = buffer;
+					buffers[index].url = url;
+					if (samples.length <= Object.keys(this.bumpkit.buffers).length) {
+						this.props.updateBuffers(buffers);
+						deferred.resolve();
+					}
 				});
-		  })(i);
+			})(i);
 		});
 		return deferred.promise;
-	  }
+	};
 
-	updateClips = (clips) => {
-		console.log(clips);
-		//this.setState({ clips });
-	}
+	updateClips = () => {
+		let clips = this.props.clips;
+		this.props.tracks.forEach((track, j) => {
+			clips[j].pattern = track.pattern;
+		});
+		this.props.updateClips(clips);
+	};
 
 	// Load the soundbank
 	loadBank = () => {
-		let clips = this.state.clips;
-		this.state.tracks.forEach((track, j) => {
-		  clips[j].pattern = track.pattern;
+		let clips = this.props.clips;
+		this.props.tracks.forEach((track, j) => {
+			clips[j].pattern = track.pattern;
 		});
 		this.updateClips(clips);
 		let tempo = false;
 		if (tempo) {
-		  this.setTempo(tempo);
+			this.props.changeTempo(tempo);
 		}
-		this.updateUrlParams();
-	}
+	};
 
-	// ??
+	// Initialize the Connections
 	initConnections = () => {
+		let clips = this.props.clips;
 		for (let i = 0; i < 8; i++) {
-		  let clip = this.state.clips[i];
-		  let sampler = this.state.samplers[i];
-		  let track = this.state.mixer.tracks[i];
-		  clip.connect(sampler);
-		  sampler.connect(track);
+			let clip = clips[i];
+			let sampler = this.props.samplers[i];
+			let track = this.props.mixer.tracks[i];
+			clip.connect(sampler);
+			sampler.connect(track);
 		}
-	}
+	};
 
-	// ??
-	initSamplers = () => {
+	// We create the initial samplers
+	initSamplers = tracks => {
 		let samplers = [];
 		for (let i = 0; i < 8; i++) {
-		  let sampler = this.bumpkit.createSampler();
-		  samplers[i] = sampler;
+			let sampler = this.bumpkit.createSampler();
+			samplers[i] = sampler;
 		}
 		return samplers;
-	}
+	};
 
-	// ??
-	initClips = () => {
+	// We create the initial Clips
+	initClips = tracks => {
 		let clips = [];
 		for (let i = 0; i < 8; i++) {
-		  clips[i] = this.bumpkit.createClip();
-		  clips[i].pattern = [];
+			clips[i] = this.bumpkit.createClip();
+			clips[i].pattern = [];
 		}
 		return clips;
-	}
-	
-	// ??
+	};
+
+	// We create the initial Mixer
 	initMixer = () => {
 		let mixer = this.bumpkit.createMixer();
 		// Add 8 tracks to the Mixer
@@ -161,77 +147,30 @@ class Sequencer extends Component {
 			mixer.addTrack();
 		}
 		return mixer;
-	}
+	};
 
-	// ??
+	// We initialize Bumpkit
 	initBumpkit = () => {
 		// Initialize new Bumpkit instance
+		this.firstInit = true;
 		this.bumpkit = new Bumpkit();
 		// Add loopLength
-		this.bumpkit.loopLength = this.state.loopLength;
+		this.bumpkit.loopLength = this.props.loopLength;
 		// Create new Bumkit-Mixer
 		let mixer = this.initMixer();
-		let clips = this.initClips();
+		let initialClips = this.initClips();
 		let samplers = this.initSamplers();
-		// Update state and load sounds etc. after its done
-		this.setState({
+		this.props.initReduxBumpkit(
 			mixer,
-			clips,
+			initialClips,
 			samplers,
-			isPlaying: this.bumpkit.isPlaying
-		}, () => {
-			this.initConnections();
-			this.loadBank();
-			this.loadBuffers().then(() => {
-			  this.loadSamplers();
-			});
-		});
+			this.bumpkit.isPlaying
+		);
 		this.addStepListener();
-	}
+	};
 
 	constructor() {
 		super();
-		this.state = {
-			color: 'red',
-			isPlaying: false,
-			loopLength: 16,
-			tempo: 96,
-			currentStep: 0,
-			volume: 1,
-			buffers: [],
-			mixer: null,
-			clips: [],
-			samplers: [],
-			currentBank: 0,
-			currentKit: 0,
-			tracks: [
-				{ pattern: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 ] },
-				{ pattern: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0 ] },
-				{ pattern: [1,0,1,0, 1,0,0,0, 0,0,0,0, 0,0,0,0 ] },
-				{ pattern: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 ] },
-				{ pattern: [1,0,0,0, 0,0,1,0, 0,0,0,1, 0,0,0,0 ] },
-				{ pattern: [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0 ] },
-				{ pattern: [0,0,0,0, 0,1,0,0, 1,0,0,1, 0,0,1,1 ] },
-				{ pattern: [1,1,1,1, 0,0,0,0, 0,0,0,0, 1,0,0,0 ] }
-			],
-			audio_path: '//jxnblk.s3.amazonaws.com/stepkit',
-			kits: [
-			  {
-					name: 'Bedford',
-					path: '/bedford',
-					samples: [
-						'kick.mp3',
-						'snare.mp3',
-						'rim.mp3',
-						'hat.mp3',
-						'bell.mp3',
-						'stab01.mp3',
-						'stab02.mp3',
-						'stab03.mp3'
-					]
-			  }
-			]
-		};
 		this.playPause = this.playPause.bind(this);
 		this.changeColor = this.changeColor.bind(this);
 		this.handleTempoChange = this.handleTempoChange.bind(this);
@@ -239,27 +178,137 @@ class Sequencer extends Component {
 		this.updateClips = this.updateClips.bind(this);
 	}
 
-	componentDidMount() {
-		// TODO: Press Start here
+	componentWillReceiveProps(nextProps) {
+		console.log('componentWillReceiveProps');
+		if (this.props.currentStep !== nextProps.currentStep) {
+			console.log('currentStep updated');
+		}
+
+		if (nextProps.mixer !== null) {
+			console.log('Mixer in props');
+			// this.initConnections();
+		}
+
+		if (this.props.tracks !== nextProps.tracks) {
+			// We update the clip patterns when the tracks changed
+			// So that tracks and clip patterns are in sync
+			let clips = this.props.clips;
+			nextProps.tracks.forEach((track, j) => {
+				clips[j].pattern = track.pattern;
+			});
+			this.props.updateClips(clips);
+		}
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		console.log({
+			shouldComponentUpdate: '',
+			nextProps,
+			nextState
+		});
+	}
+
+	componentDidUpdate() {
+		console.log(this.props);
+		if (this.props.mixer !== null && this.firstInit === true) {
+			console.log('ONLY LOADING THIS ONCE :)))))');
+			this.firstInit = false;
+			this.initConnections();
+			this.loadBank();
+			console.log('initConnections / loadBank');
+			this.loadBuffers().then(() => {
+				this.loadSamplers();
+				this.props.updateLoading(false);
+				console.log('READY TO PLAY!');
+				this.props.readyToPlay(true);
+			});
+		}
 	}
 
 	render() {
+		console.log(this.props.ready);
 		return (
 			<div>
-				<button onClick={this.initBumpkit} class={style.button} />
-				<div>Current Beat: {this.state.beatDur}</div>
-				<div onClick={this.changeColor}>{this.state.color}</div>
-				<button onClick={this.playPause}>PlayPause</button>
-				<label className="h5 bold mr1 hide">Tempo</label>
-				<input type="text"
-					value={this.state.tempo}
-					onChange={this.handleTempoChange}
-				/>
-				<div>CurrentStep: {this.state.currentStep}</div>
-				<PadGrid updateClips={this.updateClips} tracks={this.state.tracks} />
+				{this.props.ready ? (
+					<div>
+						<button onClick={this.initBumpkit} class={style.button}>
+							Start
+						</button>
+						<div>Current Beat: {this.props.beatDur}</div>
+						<div onClick={this.changeColor}>{this.props.color}</div>
+						<button onClick={this.playPause}>PlayPause</button>
+						<label className="h5 bold mr1 hide">Tempo</label>
+						<input type="text" onChange={this.handleTempoChange} />
+						<div>CurrentTempo: {this.props.tempo}</div>
+						<div>CurrentStep: {this.props.currentStep}</div>
+						<PadGrid tracks={this.props.tracks} />
+					</div>
+				) : (
+					<Landing
+						initBumpkit={this.initBumpkit}
+						loading={this.props.isLoading}
+					/>
+				)}
 			</div>
 		);
 	}
 }
 
-export default Sequencer;
+function mapStateToProps(state) {
+	const {
+		audioPath,
+		buffers,
+		clips,
+		color,
+		currentBank,
+		currentKit,
+		currentStep,
+		tracks,
+		isLoading,
+		isPlaying,
+		kits,
+		loopLength,
+		mixer,
+		ready,
+		samplers,
+		tempo,
+		volume
+	} = state.sequencer;
+	return {
+		audioPath,
+		buffers,
+		clips,
+		color,
+		currentBank,
+		currentKit,
+		currentStep,
+		tracks,
+		isLoading,
+		isPlaying,
+		kits,
+		loopLength,
+		mixer,
+		ready,
+		samplers,
+		tempo,
+		volume
+	};
+}
+
+export default connect(
+	mapStateToProps,
+	{
+		changeColor,
+		changeCurrentStep,
+		changeTempo,
+		initReduxBumpkit,
+		playPause,
+		readyToPlay,
+		start,
+		updateBuffers,
+		updateClips,
+		updateLoading,
+		updateSamplers,
+		updateTracks
+	}
+)(Sequencer);

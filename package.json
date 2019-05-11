@@ -24,16 +24,18 @@
     "eslint-config-synacor": "^2.0.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^21.2.1",
+    "node-sass": "^4.12.0",
     "per-env": "^1.0.2",
     "preact-cli": "^2.1.0",
-    "preact-render-spy": "^1.2.1"
+    "preact-render-spy": "^1.2.1",
+    "sass-loader": "^7.1.0"
   },
   "dependencies": {
     "bumpkit": "0.0.2",
     "preact": "^8.2.6",
     "preact-compat": "^3.18.5",
+    "preact-redux": "^2.0.3",
     "q": "^1.5.1",
-    "query-string": "^6.5.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
   },

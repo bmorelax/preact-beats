@@ -1,0 +1,13 @@
+export const START = 'START';
+export const COLOR = 'COLOR';
+export const UPDATE_CLIPS = 'UPDATE_CLIPS';
+export const CHANGE_TEMPO = 'CHANGE_TEMPO';
+export const PLAY_PAUSE = 'PLAY_PAUSE';
+export const UPDATE_SAMPLERS = 'UPDATE_SAMPLERS';
+export const CHANGE_CURRENT_STEP = 'CHANGE_CURRENT_STEP';
+export const UPDATE_BUFFERS = 'UPDATE_BUFFERS';
+export const ADD_THINGS = 'ADD_THINGS';
+export const UPDATE_MIXER = 'UPDATE_MIXER';
+export const UPDATE_TRACKS = 'UPDATE_TRACKS';
+export const IS_LOADING = 'IS_LOADING';
+export const READY = 'READY';

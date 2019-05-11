@@ -1,0 +1,124 @@
+.container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: rgba(255, 255, 255, 0.959);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+@keyframes bounce {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(1.05);
+	}
+}
+
+.roundButton {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-image: -webkit-linear-gradient(to top, #f4f1ee, #fff);
+	background-image: linear-gradient(to top, #f4f1ee, #fff);
+	border-radius: 50%;
+	box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 0.3), inset 0px 4px 1px 1px white,
+		inset 0px -3px 1px 1px rgba(204, 198, 197, 0.5);
+	float: left;
+	height: 6rem;
+	position: relative;
+	width: 6rem;
+	-webkit-transition: all 0.1s linear;
+	transition: all 0.1s linear;
+	color: #fb8699;
+
+	&::after {
+		color: #e9e6e4;
+		content: '';
+		display: block;
+		font-size: 30px;
+		height: 30px;
+		text-decoration: none;
+		text-shadow: 0px -1px 1px #bdb5b4, 1px 1px 1px white;
+		position: absolute;
+		width: 30px;
+	}
+
+	&:hover {
+		background-image: -webkit-linear-gradient(to top, #fff, #f4f1ee);
+		background-image: linear-gradient(to top, #fff, #f4f1ee);
+		animation: bounce 0.3s;
+		cursor: pointer;
+	}
+
+	&:hover::after {
+		color: #f99e4e;
+		text-shadow: 0px 0px 6px #f99e4e;
+	}
+
+	&:hover::after {
+		color: #83d244;
+		text-shadow: 0px 0px 6px #83d244;
+	}
+
+	&:hover::after {
+		color: #eb2f2f;
+		text-shadow: 0px 0px 6px #eb2f2f;
+	}
+
+	&:active {
+		background-image: -webkit-linear-gradient(to top, #efedec, #f7f4f4);
+		background-image: linear-gradient(to top, #efedec, #f7f4f4);
+		box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.4),
+			inset 0px -3px 1px 1px rgba(204, 198, 197, 0.5);
+	}
+
+	&:active::after {
+		color: #dbd2d2;
+		text-shadow: 0px -1px 1px #bdb5b4, 0px 1px 1px white;
+	}
+}
+
+@keyframes rotator {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(270deg); }
+}
+
+.spinner {
+	animation: rotator 1.4s linear infinite;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 5rem;
+	height: 5rem;
+}
+
+@keyframes dash {
+0% { stroke-dashoffset: 187; }
+50% {
+  stroke-dashoffset: 46.75;
+  transform:rotate(135deg);
+}
+100% {
+  stroke-dashoffset: 187;
+  transform:rotate(450deg);
+}}
+
+@keyframes colors {
+	0% { stroke: #4285F4; }
+	25% { stroke: #DE3E35; }
+	50% { stroke: #F7C223; }
+	75% { stroke: #1B9A59; }
+	100% { stroke: #4285F4; }
+}
+
+.circle {
+	stroke-dasharray: 187;
+	stroke-dashoffset: 0;
+	transform-origin: center;
+	animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
+}

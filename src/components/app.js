@@ -1,12 +1,15 @@
 import { h, Component } from 'preact';
 import Sequencer from '../components/Sequencer';
+import configureStore from '../store/configureStore';
+import { Provider } from 'preact-redux';
 
-export default class App extends Component {
-	render() {
-		return (
-			<div id="app">
-				<Sequencer />
-			</div>
-		);
-	}
-}
+const store = configureStore();
+
+const App = () => (
+	<Provider store={store}>
+		<Sequencer />
+	</Provider>
+);
+
+
+export default App;

@@ -5,7 +5,7 @@
 
 .gridContainer {
 	width: 100vw;
-	height: 100vh;
+	height: 80vh;
 	display: grid;
 	grid-template-columns: repeat(16, 1fr);
 	grid-template-rows: repeat(18, 1fr);
