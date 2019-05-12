@@ -43,10 +43,6 @@ export const updateBuffers = payload => ({
 	payload
 });
 
-// This would be the async version
-// where we may need to go fetch the
-// list of things from a server before
-// adding them via the sync action
 export const initReduxBumpkit = (mixer, clips, samplers, isPlaying) => (dispatch) => {
 	dispatch(updateMixer(mixer));
 	dispatch(updateClips(clips));

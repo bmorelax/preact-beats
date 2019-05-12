@@ -101,10 +101,6 @@ class Sequencer extends Component {
 			clips[j].pattern = track.pattern;
 		});
 		this.updateClips(clips);
-		let tempo = false;
-		if (tempo) {
-			this.props.changeTempo(tempo);
-		}
 	};
 
 	// Initialize the Connections
@@ -120,7 +116,7 @@ class Sequencer extends Component {
 	};
 
 	// We create the initial samplers
-	initSamplers = tracks => {
+	initSamplers = () => {
 		let samplers = [];
 		for (let i = 0; i < 8; i++) {
 			let sampler = this.bumpkit.createSampler();
@@ -130,7 +126,7 @@ class Sequencer extends Component {
 	};
 
 	// We create the initial Clips
-	initClips = tracks => {
+	initClips = () => {
 		let clips = [];
 		for (let i = 0; i < 8; i++) {
 			clips[i] = this.bumpkit.createClip();
@@ -156,10 +152,13 @@ class Sequencer extends Component {
 		this.bumpkit = new Bumpkit();
 		// Add loopLength
 		this.bumpkit.loopLength = this.props.loopLength;
-		// Create new Bumkit-Mixer
+
 		let mixer = this.initMixer();
 		let initialClips = this.initClips();
 		let samplers = this.initSamplers();
+		// Change the tempo in bumpkit to our initial tempo
+		this.setTempo(96);
+
 		this.props.initReduxBumpkit(
 			mixer,
 			initialClips,
