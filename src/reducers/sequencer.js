@@ -9,7 +9,7 @@ The reducer takes the previous state and an action, and returns the next state.
 import * as types from '../constants/action-types';
 
 const initialState = {
-	audioPath: '//jxnblk.s3.amazonaws.com/stepkit',
+	audioPath: 'assets/stepkit',
 	buffers: [],
 	clips: [],
 	color: 'red',
@@ -32,14 +32,14 @@ const initialState = {
 			name: 'Bedford',
 			path: '/bedford',
 			samples: [
-				'kick.mp3',
 				'snare.mp3',
-				'rim.mp3',
+				'snare2.mp3',
+				'snare3.mp3',
+				'kick.mp3',
+				'kick2.mp3',
+				'kick3.mp3',
+				'kick4.mp3',
 				'hat.mp3',
-				'bell.mp3',
-				'stab01.mp3',
-				'stab02.mp3',
-				'stab03.mp3'
 			]
 		}
 	],

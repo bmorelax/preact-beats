@@ -57,7 +57,6 @@ class Sequencer extends Component {
 		if (!window) return false;
 		window.addEventListener('step', event => {
 			let step = event.detail.step;
-			console.log(step);
 			this.props.changeCurrentStep(step);
 		});
 	};
