@@ -2,6 +2,10 @@
 	background: blueviolet;
 }
 
+.activePadCurrent {
+	background: rgb(203, 124, 228);
+}
+
 .notActivePad {
 	background: rgb(199, 184, 214);
 }

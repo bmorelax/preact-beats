@@ -240,7 +240,7 @@ class Sequencer extends Component {
 						<input type="text" onChange={this.handleTempoChange} />
 						<div>CurrentTempo: {this.props.tempo}</div>
 						<div>CurrentStep: {this.props.currentStep}</div>
-						<PadGrid tracks={this.props.tracks} />
+						<PadGrid tracks={this.props.tracks} currentStep={this.props.currentStep} />
 					</div>
 				) : (
 					<Landing
