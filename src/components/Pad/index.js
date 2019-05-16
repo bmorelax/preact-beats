@@ -2,6 +2,16 @@ import style from './style';
 import { updateTracks } from '../../actions';
 import { Component } from 'preact';
 import { connect } from 'preact-redux';
+import styled, { keyframes } from 'styled-components';
+
+const StyledPad = styled.div`
+	background: ${props => props.color};
+	box-shadow: ${props => props.shadow};
+	transition: box-shadow 0.3s;
+	transition: opacity 0.2s;
+	opacity: ${props => props.opacity};
+	z-index: 99;
+`;
 
 class Pad extends Component {
 	updateTrackHelper = () => {
@@ -17,13 +27,19 @@ class Pad extends Component {
 	}
 
 	render({ active, currentStep, number }) {
-		if (active) {
-			return <div class={style.activePad} onClick={this.updateTrackHelper} />;
+		if (currentStep === number && active) {
+			return <StyledPad color="#fff" shadow="0 0 6px 3px #ffffff5b, 0 0 10px 6px #ffffff5b" onClick={this.updateTrackHelper} />;
+		}
+		else if (active) {
+			return <StyledPad color="#eaeaeb" onClick={this.updateTrackHelper} />;
 		}
 		else if (currentStep === number) {
-			return <div class={style.activePadCurrent} onClick={this.updateTrackHelper} />;
+			return <StyledPad color="#1eb980" onClick={this.updateTrackHelper} opacity={0.1} />;
 		}
-		return <div class={style.notActivePad} onClick={this.updateTrackHelper} />;
+		else if (number%4 === 0) {
+			return <StyledPad color="#005d57" class={style.notActivePad} onClick={this.updateTrackHelper} />;
+		}
+		return <StyledPad color="#1eb980" class={style.notActivePad} onClick={this.updateTrackHelper} />;
 	}
 }
 

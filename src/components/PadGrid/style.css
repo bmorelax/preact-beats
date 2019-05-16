@@ -5,10 +5,10 @@
 
 .gridContainer {
 	width: 100vw;
-	height: 80vh;
+	height: 90vh;
 	display: grid;
 	grid-template-columns: repeat(32, 1fr);
-	grid-template-rows: repeat(18, 1fr);
+	grid-template-rows: repeat(19, 1fr);
 	grid-column-gap: 1px;
 	grid-row-gap: 1px;
 	justify-items: stretch;

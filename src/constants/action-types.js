@@ -11,3 +11,4 @@ export const UPDATE_MIXER = 'UPDATE_MIXER';
 export const UPDATE_TRACKS = 'UPDATE_TRACKS';
 export const IS_LOADING = 'IS_LOADING';
 export const READY = 'READY';
+export const CHANGE_DUR = 'CHANGE_DUR';

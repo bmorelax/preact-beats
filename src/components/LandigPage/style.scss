@@ -4,7 +4,7 @@
 	left: 0;
 	width: 100vw;
 	height: 100vh;
-	background: rgba(255, 255, 255, 0.959);
+	background: #15151a;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -24,33 +24,34 @@
 	justify-content: center;
 	align-items: center;
 	background-image: -webkit-linear-gradient(to top, #f4f1ee, #fff);
-	background-image: linear-gradient(to top, #f4f1ee, #fff);
+	background-image: linear-gradient(to top, #000000, rgb(41, 39, 39));
 	border-radius: 50%;
-	box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 0.3), inset 0px 4px 1px 1px white,
-		inset 0px -3px 1px 1px rgba(204, 198, 197, 0.5);
+	box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 0.993), inset 0px 4px 1px 1px rgb(61, 61, 61),
+		inset 0px -3px 1px 1px rgba(43, 41, 41, 0.733);
 	float: left;
 	height: 6rem;
 	position: relative;
 	width: 6rem;
 	-webkit-transition: all 0.1s linear;
 	transition: all 0.1s linear;
-	color: #fb8699;
+	color: #37d6a9;
+	font-weight: bold;
 
 	&::after {
-		color: #e9e6e4;
+		color: #1d1b1b;
 		content: '';
 		display: block;
 		font-size: 30px;
 		height: 30px;
 		text-decoration: none;
-		text-shadow: 0px -1px 1px #bdb5b4, 1px 1px 1px white;
+		text-shadow: 0px -1px 1px #242323, 1px 1px 1px rgb(19, 18, 18);
 		position: absolute;
 		width: 30px;
 	}
 
 	&:hover {
-		background-image: -webkit-linear-gradient(to top, #fff, #f4f1ee);
-		background-image: linear-gradient(to top, #fff, #f4f1ee);
+		background-image: -webkit-linear-gradient(to top, rgb(26, 25, 25), #202020);
+		background-image: linear-gradient(to top, rgb(27, 26, 26), #181717);
 		animation: bounce 0.3s;
 		cursor: pointer;
 	}
@@ -71,15 +72,15 @@
 	}
 
 	&:active {
-		background-image: -webkit-linear-gradient(to top, #efedec, #f7f4f4);
-		background-image: linear-gradient(to top, #efedec, #f7f4f4);
+		background-image: -webkit-linear-gradient(to top, #181716, #222222);
+		background-image: linear-gradient(to top, #1a1919, #1a1919);
 		box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.4),
-			inset 0px -3px 1px 1px rgba(204, 198, 197, 0.5);
+			inset 0px -3px 1px 1px rgba(41, 40, 40, 0.5);
 	}
 
 	&:active::after {
-		color: #dbd2d2;
-		text-shadow: 0px -1px 1px #bdb5b4, 0px 1px 1px white;
+		color: #1d1c1c;
+		text-shadow: 0px -1px 1px #1d1c1c, 0px 1px 1px rgb(29, 28, 28);
 	}
 }
 

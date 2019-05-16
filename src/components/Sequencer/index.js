@@ -1,7 +1,6 @@
 import { Component } from 'preact';
 import { connect } from 'preact-redux';
 import {
-	changeColor,
 	changeCurrentStep,
 	changeTempo,
 	initReduxBumpkit,
@@ -21,12 +20,6 @@ import Q from 'q';
 import style from './style';
 
 class Sequencer extends Component {
-	changeColor = () => {
-		this.props.color === 'red'
-			? this.props.changeColor('green')
-			: this.props.changeColor('red');
-	};
-
 	handleTempoChange = event => {
 		let tempo = event.target.value;
 		this.setTempo(tempo);
@@ -54,7 +47,6 @@ class Sequencer extends Component {
 	};
 
 	addStepListener = () => {
-		if (!window) return false;
 		window.addEventListener('step', event => {
 			let step = event.detail.step;
 			this.props.changeCurrentStep(step);
@@ -86,12 +78,20 @@ class Sequencer extends Component {
 	};
 
 	updateClips = () => {
-		let clips = this.props.clips;
+		let { clips } = this.props;
 		this.props.tracks.forEach((track, j) => {
 			clips[j].pattern = track.pattern;
 		});
 		this.props.updateClips(clips);
 	};
+
+	updateClipsDuration = () => {
+		let { clips, buffers } = this.props;
+		this.props.clips.forEach((clip, j) => {
+			clips[j].output.duration = buffers[j].duration;
+		});
+		this.props.updateClips(clips);
+	}
 
 	// Load the soundbank
 	loadBank = () => {
@@ -170,20 +170,17 @@ class Sequencer extends Component {
 	constructor() {
 		super();
 		this.playPause = this.playPause.bind(this);
-		this.changeColor = this.changeColor.bind(this);
 		this.handleTempoChange = this.handleTempoChange.bind(this);
 		this.initBumpkit = this.initBumpkit.bind(this);
 		this.updateClips = this.updateClips.bind(this);
+		this.updateClipsDuration = this.updateClipsDuration.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log('componentWillReceiveProps');
 		if (this.props.currentStep !== nextProps.currentStep) {
-			console.log('currentStep updated');
 		}
 
 		if (nextProps.mixer !== null) {
-			console.log('Mixer in props');
 			// this.initConnections();
 		}
 
@@ -198,33 +195,22 @@ class Sequencer extends Component {
 		}
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
-		console.log({
-			shouldComponentUpdate: '',
-			nextProps,
-			nextState
-		});
-	}
-
 	componentDidUpdate() {
-		console.log(this.props);
+		window.bumpkit = this.bumpkit;
 		if (this.props.mixer !== null && this.firstInit === true) {
-			console.log('ONLY LOADING THIS ONCE :)))))');
 			this.firstInit = false;
 			this.initConnections();
 			this.loadBank();
-			console.log('initConnections / loadBank');
 			this.loadBuffers().then(() => {
 				this.loadSamplers();
+				this.updateClipsDuration();
 				this.props.updateLoading(false);
-				console.log('READY TO PLAY!');
 				this.props.readyToPlay(true);
 			});
 		}
 	}
 
 	render() {
-		console.log(this.props.ready);
 		return (
 			<div>
 				{this.props.ready ? (
@@ -233,7 +219,6 @@ class Sequencer extends Component {
 							Start
 						</button>
 						<div>Current Beat: {this.props.beatDur}</div>
-						<div onClick={this.changeColor}>{this.props.color}</div>
 						<button onClick={this.playPause}>PlayPause</button>
 						<label className="h5 bold mr1 hide">Tempo</label>
 						<input type="text" onChange={this.handleTempoChange} />
@@ -296,7 +281,6 @@ function mapStateToProps(state) {
 export default connect(
 	mapStateToProps,
 	{
-		changeColor,
 		changeCurrentStep,
 		changeTempo,
 		initReduxBumpkit,
