@@ -18,6 +18,7 @@ import Bumpkit from 'bumpkit';
 import PadGrid from '../PadGrid';
 import Q from 'q';
 import style from './style';
+import Menu from '../Menu';
 
 class Sequencer extends Component {
 	handleTempoChange = event => {
@@ -91,7 +92,7 @@ class Sequencer extends Component {
 			clips[j].output.duration = buffers[j].duration;
 		});
 		this.props.updateClips(clips);
-	}
+	};
 
 	// Load the soundbank
 	loadBank = () => {
@@ -215,16 +216,16 @@ class Sequencer extends Component {
 			<div>
 				{this.props.ready ? (
 					<div>
-						<button onClick={this.initBumpkit} class={style.button}>
-							Start
-						</button>
-						<div>Current Beat: {this.props.beatDur}</div>
-						<button onClick={this.playPause}>PlayPause</button>
-						<label className="h5 bold mr1 hide">Tempo</label>
-						<input type="text" onChange={this.handleTempoChange} />
-						<div>CurrentTempo: {this.props.tempo}</div>
-						<div>CurrentStep: {this.props.currentStep}</div>
-						<PadGrid tracks={this.props.tracks} currentStep={this.props.currentStep} />
+						<Menu
+							playPause={this.playPause}
+							tempo={this.handleTempoChange}
+							currentTempo={this.props.tempo}
+							isPlaying={this.props.isPlaying}
+						/>
+						<PadGrid
+							tracks={this.props.tracks}
+							currentStep={this.props.currentStep}
+						/>
 					</div>
 				) : (
 					<Landing

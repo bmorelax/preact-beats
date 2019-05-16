@@ -1,13 +1,11 @@
 import { Component } from 'preact';
 import style from './style';
 import Pad from '../Pad';
-import Menu from '../Menu';
 
 class PadGrid extends Component {
 	render() {
 		return (
 			<div class={style.gridContainer}>
-				<Menu />
 				{this.props.tracks.map((track, trackNumber) =>
 					track.pattern.map((pads, key) => (
 						<Pad

@@ -1,14 +1,26 @@
 import styled from 'styled-components';
+import StartStopButton from '../StartStopButton';
 
 const StyledMenu = styled.div`
 	background: #373740;
-    grid-column-start: 1;
-    grid-column-end: -1;
+	height: 5vh;
+	display: flex;
+	flex-direction: row;
 `;
 
-const Menu = () => (
+const CurrentTempo = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 5vh;
+	width: 25vw;
+	color: #37d6a9;
+`;
+
+const Menu = ({ playPause, isPlaying, currentTempo }) => (
 	<StyledMenu>
-		test
+		<StartStopButton playPause={playPause} isPlaying={isPlaying} />
+		<CurrentTempo>Tempo: {currentTempo}</CurrentTempo>
 	</StyledMenu>
 );
 

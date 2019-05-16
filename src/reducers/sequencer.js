@@ -80,6 +80,8 @@ export default function reducer(state = initialState, action) {
 			return { ...state, isLoading: action.payload };
 		case types.READY:
 			return { ...state, ready: action.payload };
+		case types.PLAY_PAUSE:
+			return { ...state, isPlaying: action.payload };
 		default:
 			return state;
 	}
