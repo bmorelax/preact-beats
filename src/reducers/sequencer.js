@@ -82,6 +82,10 @@ export default function reducer(state = initialState, action) {
 			return { ...state, ready: action.payload };
 		case types.PLAY_PAUSE:
 			return { ...state, isPlaying: action.payload };
+		case types.ADD_TEMPO:
+			return { ...state, tempo: state.tempo + 1 };
+		case types.DECREASE_TEMPO:
+			return { ...state, tempo: state.tempo - 1 };
 		default:
 			return state;
 	}

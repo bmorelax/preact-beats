@@ -12,3 +12,5 @@ export const UPDATE_TRACKS = 'UPDATE_TRACKS';
 export const IS_LOADING = 'IS_LOADING';
 export const READY = 'READY';
 export const CHANGE_DUR = 'CHANGE_DUR';
+export const ADD_TEMPO = 'ADD_TEMPO';
+export const DECREASE_TEMPO = 'DECREASE_TEMPO';

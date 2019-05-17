@@ -23,6 +23,14 @@ export const changeTempo = payload => ({
 	payload
 });
 
+export const addTempo = () => ({
+	type: types.ADD_TEMPO
+});
+
+export const decreaseTempo = () => ({
+	type: types.DECREASE_TEMPO
+});
+
 export const playPause = payload => ({
 	type: types.PLAY_PAUSE,
 	payload

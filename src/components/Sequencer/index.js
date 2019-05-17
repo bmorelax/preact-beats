@@ -17,20 +17,9 @@ import Landing from '../LandigPage';
 import Bumpkit from 'bumpkit';
 import PadGrid from '../PadGrid';
 import Q from 'q';
-import style from './style';
 import Menu from '../Menu';
 
 class Sequencer extends Component {
-	handleTempoChange = event => {
-		let tempo = event.target.value;
-		this.setTempo(tempo);
-	};
-
-	setTempo = tempo => {
-		this.bumpkit.tempo = tempo;
-		this.props.changeTempo(this.bumpkit.tempo);
-	};
-
 	// Play / Pause Bumpkit
 	playPause = () => {
 		if (!this.bumpkit) return false;
@@ -157,7 +146,7 @@ class Sequencer extends Component {
 		let initialClips = this.initClips();
 		let samplers = this.initSamplers();
 		// Change the tempo in bumpkit to our initial tempo
-		this.setTempo(96);
+		this.props.changeTempo(96);
 
 		this.props.initReduxBumpkit(
 			mixer,
@@ -171,7 +160,6 @@ class Sequencer extends Component {
 	constructor() {
 		super();
 		this.playPause = this.playPause.bind(this);
-		this.handleTempoChange = this.handleTempoChange.bind(this);
 		this.initBumpkit = this.initBumpkit.bind(this);
 		this.updateClips = this.updateClips.bind(this);
 		this.updateClipsDuration = this.updateClipsDuration.bind(this);
@@ -183,6 +171,10 @@ class Sequencer extends Component {
 
 		if (nextProps.mixer !== null) {
 			// this.initConnections();
+		}
+
+		if (this.props.tempo !== nextProps.tempo) {
+			this.bumpkit.tempo = nextProps.tempo;
 		}
 
 		if (this.props.tracks !== nextProps.tracks) {
@@ -218,7 +210,6 @@ class Sequencer extends Component {
 					<div>
 						<Menu
 							playPause={this.playPause}
-							tempo={this.handleTempoChange}
 							currentTempo={this.props.tempo}
 							isPlaying={this.props.isPlaying}
 						/>
@@ -282,8 +273,8 @@ function mapStateToProps(state) {
 export default connect(
 	mapStateToProps,
 	{
-		changeCurrentStep,
 		changeTempo,
+		changeCurrentStep,
 		initReduxBumpkit,
 		playPause,
 		readyToPlay,

@@ -34,6 +34,7 @@
     "bumpkit": "0.0.2",
     "preact": "^8.2.6",
     "preact-compat": "^3.18.5",
+    "preact-context": "1.1.0",
     "preact-redux": "^2.0.3",
     "q": "^1.5.1",
     "redux": "^4.0.1",
