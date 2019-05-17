@@ -1,8 +1,7 @@
-import style from './style';
 import { updateTracks } from '../../actions';
 import { Component } from 'preact';
 import { connect } from 'preact-redux';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 const StyledPad = styled.div`
 	background: ${props => props.color};
@@ -37,9 +36,9 @@ class Pad extends Component {
 			return <StyledPad color="#1eb980" onClick={this.updateTrackHelper} opacity={0.1} />;
 		}
 		else if (number%4 === 0) {
-			return <StyledPad color="#005d57" class={style.notActivePad} onClick={this.updateTrackHelper} />;
+			return <StyledPad color="#005d57" onClick={this.updateTrackHelper} />;
 		}
-		return <StyledPad color="#1eb980" class={style.notActivePad} onClick={this.updateTrackHelper} />;
+		return <StyledPad color="#1eb980" onClick={this.updateTrackHelper} />;
 	}
 }
 

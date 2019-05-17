@@ -1,23 +1,23 @@
 import { Component } from 'preact';
+import Bumpkit from 'bumpkit';
+import Landing from '../LandigPage';
+import Menu from '../Menu';
+import PadGrid from '../PadGrid';
+import Q from 'q';
 import { connect } from 'preact-redux';
 import {
 	changeCurrentStep,
 	changeTempo,
 	initReduxBumpkit,
-	updateLoading,
 	playPause,
 	readyToPlay,
 	start,
 	updateBuffers,
 	updateClips,
+	updateLoading,
 	updateSamplers,
 	updateTracks
 } from '../../actions';
-import Landing from '../LandigPage';
-import Bumpkit from 'bumpkit';
-import PadGrid from '../PadGrid';
-import Q from 'q';
-import Menu from '../Menu';
 
 class Sequencer extends Component {
 	// Play / Pause Bumpkit
@@ -169,17 +169,13 @@ class Sequencer extends Component {
 		if (this.props.currentStep !== nextProps.currentStep) {
 		}
 
-		if (nextProps.mixer !== null) {
-			// this.initConnections();
-		}
-
 		if (this.props.tempo !== nextProps.tempo) {
 			this.bumpkit.tempo = nextProps.tempo;
 		}
 
 		if (this.props.tracks !== nextProps.tracks) {
 			// We update the clip patterns when the tracks changed
-			// So that tracks and clip patterns are in sync
+			// so that tracks and clip patterns are in sync
 			let clips = this.props.clips;
 			nextProps.tracks.forEach((track, j) => {
 				clips[j].pattern = track.pattern;
@@ -238,7 +234,6 @@ function mapStateToProps(state) {
 		currentBank,
 		currentKit,
 		currentStep,
-		tracks,
 		isLoading,
 		isPlaying,
 		kits,
@@ -247,6 +242,7 @@ function mapStateToProps(state) {
 		ready,
 		samplers,
 		tempo,
+		tracks,
 		volume
 	} = state.sequencer;
 	return {
@@ -257,7 +253,6 @@ function mapStateToProps(state) {
 		currentBank,
 		currentKit,
 		currentStep,
-		tracks,
 		isLoading,
 		isPlaying,
 		kits,
@@ -266,6 +261,7 @@ function mapStateToProps(state) {
 		ready,
 		samplers,
 		tempo,
+		tracks,
 		volume
 	};
 }
@@ -273,8 +269,8 @@ function mapStateToProps(state) {
 export default connect(
 	mapStateToProps,
 	{
-		changeTempo,
 		changeCurrentStep,
+		changeTempo,
 		initReduxBumpkit,
 		playPause,
 		readyToPlay,

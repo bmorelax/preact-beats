@@ -1,11 +1,22 @@
 import { Component } from 'preact';
-import style from './style';
+import styled from 'styled-components';
 import Pad from '../Pad';
+
+const GridContainer = styled.div`
+	display: grid;
+	grid-column-gap: 1px;
+	grid-row-gap: 1px;
+	grid-template-columns: repeat(32, 1fr);
+	grid-template-rows: repeat(19, 1fr);
+	height: 90vh;
+	justify-items: stretch;
+	width: 100vw;
+`;
 
 class PadGrid extends Component {
 	render() {
 		return (
-			<div class={style.gridContainer}>
+			<GridContainer>
 				{this.props.tracks.map((track, trackNumber) =>
 					track.pattern.map((pads, key) => (
 						<Pad
@@ -18,7 +29,7 @@ class PadGrid extends Component {
 						/>
 					))
 				)}
-			</div>
+			</GridContainer>
 		);
 	}
 }
