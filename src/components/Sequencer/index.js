@@ -47,13 +47,13 @@ class Sequencer extends Component {
 	loadBuffers = () => {
 		this.props.updateLoading(true);
 		let deferred = Q.defer();
-		let kit = this.props.kits[this.props.currentKit];
+		let kit = this.props.kit;
 		let samples = kit.samples;
 		let buffers = this.props.buffers;
 		this.bumpkit.buffers = {};
 		samples.forEach((sample, i) => {
 			(index => {
-				let url = this.props.audioPath + kit.path + '/' + sample;
+				let url = this.props.audioPath + '/' + sample;
 				this.bumpkit.loadBuffer(url, buffer => {
 					buffers[index] = buffer;
 					buffers[index].url = url;
@@ -95,7 +95,7 @@ class Sequencer extends Component {
 	// Initialize the Connections
 	initConnections = () => {
 		let clips = this.props.clips;
-		for (let i = 0; i < 8; i++) {
+		for (let i = 0; i < this.props.soundsAmount; i++) {
 			let clip = clips[i];
 			let sampler = this.props.samplers[i];
 			let track = this.props.mixer.tracks[i];
@@ -107,7 +107,7 @@ class Sequencer extends Component {
 	// We create the initial samplers
 	initSamplers = () => {
 		let samplers = [];
-		for (let i = 0; i < 8; i++) {
+		for (let i = 0; i < this.props.soundsAmount; i++) {
 			let sampler = this.bumpkit.createSampler();
 			samplers[i] = sampler;
 		}
@@ -117,7 +117,7 @@ class Sequencer extends Component {
 	// We create the initial Clips
 	initClips = () => {
 		let clips = [];
-		for (let i = 0; i < 8; i++) {
+		for (let i = 0; i < this.props.soundsAmount; i++) {
 			clips[i] = this.bumpkit.createClip();
 			clips[i].pattern = [];
 		}
@@ -128,7 +128,7 @@ class Sequencer extends Component {
 	initMixer = () => {
 		let mixer = this.bumpkit.createMixer();
 		// Add 8 tracks to the Mixer
-		for (let i = 0; i < 8; i++) {
+		for (let i = 0; i < this.props.soundsAmount; i++) {
 			mixer.addTrack();
 		}
 		return mixer;
@@ -146,7 +146,7 @@ class Sequencer extends Component {
 		let initialClips = this.initClips();
 		let samplers = this.initSamplers();
 		// Change the tempo in bumpkit to our initial tempo
-		this.props.changeTempo(96);
+		this.props.changeTempo(128);
 
 		this.props.initReduxBumpkit(
 			mixer,
@@ -211,7 +211,9 @@ class Sequencer extends Component {
 						/>
 						<PadGrid
 							tracks={this.props.tracks}
+							samples={this.props.kit.samples}
 							currentStep={this.props.currentStep}
+							loopLength={this.props.loopLength}
 						/>
 					</div>
 				) : (
@@ -232,15 +234,15 @@ function mapStateToProps(state) {
 		clips,
 		color,
 		currentBank,
-		currentKit,
 		currentStep,
 		isLoading,
 		isPlaying,
-		kits,
+		kit,
 		loopLength,
 		mixer,
 		ready,
 		samplers,
+		soundsAmount,
 		tempo,
 		tracks,
 		volume
@@ -251,15 +253,15 @@ function mapStateToProps(state) {
 		clips,
 		color,
 		currentBank,
-		currentKit,
 		currentStep,
 		isLoading,
 		isPlaying,
-		kits,
+		kit,
 		loopLength,
 		mixer,
 		ready,
 		samplers,
+		soundsAmount,
 		tempo,
 		tracks,
 		volume
