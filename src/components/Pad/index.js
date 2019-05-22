@@ -3,18 +3,22 @@ import { Component } from 'preact';
 import { connect } from 'preact-redux';
 import styled from 'styled-components';
 
-const StyledPad = styled.div`
-	background: ${props => props.color};
-	box-shadow: ${props => props.shadow};
+const StyledPad = styled.div.attrs({
+	style: props => ({
+	  background: props.bg
+	})
+})`
 	transition: box-shadow 0.3s;
 	z-index: 98;
 	opacity: ${props => props.opacity};
 	transition: opacity 0.4s;
 `;
 
-const StyledPadSoundName = styled.div`
-	background: ${props => props.active ? `#fff` : `#1eb980`};
-	box-shadow: ${props => props.shadow ? '0 0 6px 3px #ffffff5b, 0 0 10px 6px #ffffff5b' : ''};
+const StyledPadSoundName = styled.div.attrs({
+	style: props => ({
+	  background: props.active ? `#fff` : `#1eb980`
+	})
+})`
 	transition: box-shadow 0.3s;
 	z-index: 99;
 	white-space: nowrap;
@@ -41,13 +45,18 @@ class Pad extends Component {
 		this.updateTrackHelper = this.updateTrackHelper.bind(this);
 	}
 
+	shouldComponentUpdate(nextProps) {
+		let activeChanged = nextProps.active !== this.props.active;
+		let CurrentStepChanged = this.props.currentStep !== nextProps.currentStep;
+		return activeChanged;
+	}
+
 	render({ active, currentStep, number, soundName }) {
 		if (number === 0) {
 			return (
 				<StyledPadSoundName
 					active={active}
-					color="#fff"
-					shadow={currentStep === number && active}
+					bg="#fff"
 					onClick={this.updateTrackHelper}
 				>
 					<StyledText>{soundName}</StyledText>
@@ -57,22 +66,21 @@ class Pad extends Component {
 		if (currentStep === number && active) {
 			return (
 				<StyledPad
-					color="#fff"
-					shadow="0 0 6px 3px #ffffff5b, 0 0 10px 6px #ffffff5b"
+					bg="#fff"
 					onClick={this.updateTrackHelper}
 				/>
 			);
 		}
 		else if (active) {
-			return <StyledPad color="#eaeaeb" onClick={this.updateTrackHelper} />;
+			return <StyledPad bg="#eaeaeb" onClick={this.updateTrackHelper} />;
 		}
 		else if (currentStep === number) {
-			return <StyledPad color="#000" onClick={this.updateTrackHelper} opacity={0.2} />;
+			return <StyledPad bg="#000" onClick={this.updateTrackHelper}/>;
 		}
 		else if (number % 8 === 0) {
-			return <StyledPad color="#005d57" onClick={this.updateTrackHelper} />;
+			return <StyledPad bg="#005d57" onClick={this.updateTrackHelper} />;
 		}
-		return <StyledPad color="#1eb980" onClick={this.updateTrackHelper} />;
+		return <StyledPad bg="#1eb980" onClick={this.updateTrackHelper} />;
 	}
 }
 
