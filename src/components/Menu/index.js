@@ -1,30 +1,44 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import StartStopButton from '../StartStopButton';
-import TempoButtons from '../TempoButtons';
+
 
 const StyledMenu = styled.div`
+	z-index: 99;
 	background: #373740;
 	height: 5vh;
 	display: flex;
 	flex-direction: row;
 `;
 
-const CurrentTempo = styled.div`
-	display: flex;
-	justify-content: center;
-	flex-direction: row;
-	align-items: center;
-	height: 5vh;
-	width: 25vw;
-	color: #37d6a9;
-	font-size: 1.1rem;
+export const keyFrameExampleOne = keyframes`
+  0% {
+    transform: translateX(0px)
+  }
+  100% {
+    transform: translateX(100vw)
+  }
 `;
 
-const Menu = ({ playPause, isPlaying, currentTempo }) => (
+const Overlay = styled.div`
+	position: absolute;
+	height: 95vh;
+	width: 1.5vw;
+	background: rgba(0,0,0,0.7);
+	z-index: 98;
+	pointer-events: none;
+	animation: ${keyFrameExampleOne};
+	animation-duration: 7.5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+	overflow: hidden;
+	top: 5vh;
+`;
+
+
+const Menu = ({ playPause, isPlaying }) => (
 	<StyledMenu>
+		{ isPlaying ? <Overlay /> : null}
 		<StartStopButton playPause={playPause} isPlaying={isPlaying} />
-		<CurrentTempo>Tempo: {currentTempo}</CurrentTempo>
-		<TempoButtons />
 	</StyledMenu>
 );
 

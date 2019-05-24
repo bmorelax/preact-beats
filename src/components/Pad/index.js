@@ -9,27 +9,9 @@ const StyledPad = styled.div.attrs({
 	})
 })`
 	transition: box-shadow 0.3s;
-	z-index: 98;
+	z-index: 97;
 	opacity: ${props => props.opacity};
 	transition: opacity 0.4s;
-`;
-
-const StyledPadSoundName = styled.div.attrs({
-	style: props => ({
-	  background: props.active ? `#fff` : `#1eb980`
-	})
-})`
-	transition: box-shadow 0.3s;
-	z-index: 99;
-	white-space: nowrap;
-	display: flex;
-	align-items: center;
-`;
-
-const StyledText = styled.p`
-	color: #000;
-	font-weight: bold;
-	pointer-events: none;
 `;
 
 class Pad extends Component {
@@ -47,22 +29,10 @@ class Pad extends Component {
 
 	shouldComponentUpdate(nextProps) {
 		let activeChanged = nextProps.active !== this.props.active;
-		let CurrentStepChanged = this.props.currentStep !== nextProps.currentStep;
 		return activeChanged;
 	}
 
-	render({ active, currentStep, number, soundName }) {
-		if (number === 0) {
-			return (
-				<StyledPadSoundName
-					active={active}
-					bg="#fff"
-					onClick={this.updateTrackHelper}
-				>
-					<StyledText>{soundName}</StyledText>
-				</StyledPadSoundName>
-			);
-		}
+	render({ active, currentStep, number }) {
 		if (currentStep === number && active) {
 			return (
 				<StyledPad
@@ -73,9 +43,6 @@ class Pad extends Component {
 		}
 		else if (active) {
 			return <StyledPad bg="#eaeaeb" onClick={this.updateTrackHelper} />;
-		}
-		else if (currentStep === number) {
-			return <StyledPad bg="#000" onClick={this.updateTrackHelper}/>;
 		}
 		else if (number % 8 === 0) {
 			return <StyledPad bg="#005d57" onClick={this.updateTrackHelper} />;

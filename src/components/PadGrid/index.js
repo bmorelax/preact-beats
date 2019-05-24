@@ -6,7 +6,7 @@ const GridContainer = styled.div`
 	display: grid;
 	grid-column-gap: 1px;
 	grid-row-gap: 1px;
-	grid-template-columns: ${props => `repeat(${props.loopLength}, minmax(1rem, 1fr))`};
+	grid-template-columns: ${props => `repeat(${props.loopLength}, 1fr)`};
 	grid-template-rows: ${props => `repeat(${props.tracks}, 1fr)`};
 	height: 90vh;
 	justify-items: stretch;
@@ -22,7 +22,6 @@ class PadGrid extends Component {
 						<Pad
 							tracks={tracks}
 							number={key}
-							soundName={samples[trackNumber]}
 							active={pads}
 							trackNumber={trackNumber}
 							updateClips={this.updateClips}
