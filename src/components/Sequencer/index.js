@@ -7,7 +7,6 @@ import Q from 'q';
 import { connect } from 'preact-redux';
 import {
 	changeCurrentStep,
-	changeTempo,
 	initReduxBumpkit,
 	playPause,
 	readyToPlay,
@@ -145,8 +144,7 @@ class Sequencer extends Component {
 		let mixer = this.initMixer();
 		let initialClips = this.initClips();
 		let samplers = this.initSamplers();
-		// Change the tempo in bumpkit to our initial tempo
-		this.props.changeTempo(128);
+		this.bumpkit.tempo = 128;
 
 		this.props.initReduxBumpkit(
 			mixer,
@@ -169,10 +167,6 @@ class Sequencer extends Component {
 		if (this.props.currentStep !== nextProps.currentStep) {
 		}
 
-		if (this.props.tempo !== nextProps.tempo) {
-			this.bumpkit.tempo = nextProps.tempo;
-		}
-
 		if (this.props.tracks !== nextProps.tracks) {
 			// We update the clip patterns when the tracks changed
 			// so that tracks and clip patterns are in sync
@@ -184,8 +178,15 @@ class Sequencer extends Component {
 		}
 	}
 
+	shouldComponentUpdate(nextProps) {
+		let mixerChanged = nextProps.mixer !== this.props.mixer;
+		let isPlayingChanged = nextProps.isPlaying !== this.props.isPlaying;
+		let isReadyChanged = nextProps.ready !== this.props.ready;
+		let tracksChanged = nextProps.tracks !== this.props.tracks;
+		return isPlayingChanged || isReadyChanged || mixerChanged || tracksChanged;
+	}
+
 	componentDidUpdate() {
-		window.bumpkit = this.bumpkit;
 		if (this.props.mixer !== null && this.firstInit === true) {
 			this.firstInit = false;
 			this.initConnections();
@@ -206,7 +207,6 @@ class Sequencer extends Component {
 					<div>
 						<Menu
 							playPause={this.playPause}
-							currentTempo={this.props.tempo}
 							isPlaying={this.props.isPlaying}
 						/>
 						<PadGrid
@@ -214,6 +214,7 @@ class Sequencer extends Component {
 							samples={this.props.kit.samples}
 							currentStep={this.props.currentStep}
 							loopLength={this.props.loopLength}
+							isPlaying={this.props.isPlaying}
 						/>
 					</div>
 				) : (
@@ -232,7 +233,6 @@ function mapStateToProps(state) {
 		audioPath,
 		buffers,
 		clips,
-		color,
 		currentBank,
 		currentStep,
 		isLoading,
@@ -243,7 +243,6 @@ function mapStateToProps(state) {
 		ready,
 		samplers,
 		soundsAmount,
-		tempo,
 		tracks,
 		volume
 	} = state.sequencer;
@@ -251,7 +250,6 @@ function mapStateToProps(state) {
 		audioPath,
 		buffers,
 		clips,
-		color,
 		currentBank,
 		currentStep,
 		isLoading,
@@ -262,7 +260,6 @@ function mapStateToProps(state) {
 		ready,
 		samplers,
 		soundsAmount,
-		tempo,
 		tracks,
 		volume
 	};
@@ -272,7 +269,6 @@ export default connect(
 	mapStateToProps,
 	{
 		changeCurrentStep,
-		changeTempo,
 		initReduxBumpkit,
 		playPause,
 		readyToPlay,

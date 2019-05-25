@@ -1,7 +1,5 @@
 export const START = 'START';
-export const COLOR = 'COLOR';
 export const UPDATE_CLIPS = 'UPDATE_CLIPS';
-export const CHANGE_TEMPO = 'CHANGE_TEMPO';
 export const PLAY_PAUSE = 'PLAY_PAUSE';
 export const UPDATE_SAMPLERS = 'UPDATE_SAMPLERS';
 export const CHANGE_CURRENT_STEP = 'CHANGE_CURRENT_STEP';
@@ -12,5 +10,3 @@ export const UPDATE_TRACKS = 'UPDATE_TRACKS';
 export const IS_LOADING = 'IS_LOADING';
 export const READY = 'READY';
 export const CHANGE_DUR = 'CHANGE_DUR';
-export const ADD_TEMPO = 'ADD_TEMPO';
-export const DECREASE_TEMPO = 'DECREASE_TEMPO';

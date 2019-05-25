@@ -6,29 +6,9 @@ export function start() {
 	};
 }
 
-export function changeColor(payload) {
-	return {
-		type: types.COLOR,
-		payload
-	};
-}
-
 export const updateClips = payload => ({
 	type: types.UPDATE_CLIPS,
 	payload
-});
-
-export const changeTempo = payload => ({
-	type: types.CHANGE_TEMPO,
-	payload
-});
-
-export const addTempo = () => ({
-	type: types.ADD_TEMPO
-});
-
-export const decreaseTempo = () => ({
-	type: types.DECREASE_TEMPO
 });
 
 export const playPause = payload => ({

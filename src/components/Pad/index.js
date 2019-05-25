@@ -29,7 +29,8 @@ class Pad extends Component {
 
 	shouldComponentUpdate(nextProps) {
 		let activeChanged = nextProps.active !== this.props.active;
-		return activeChanged;
+		let currentStepChanged = nextProps.currentStep !== this.props.currentStep;
+		return activeChanged || currentStepChanged;
 	}
 
 	render({ active, currentStep, number }) {

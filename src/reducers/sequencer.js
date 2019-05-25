@@ -57,7 +57,6 @@ const initialState = {
 	loopLength: 64,
 	mixer: null,
 	samplers: [],
-	tempo: 127,
 	volume: 1,
 	isLoading: false,
 	ready: false
@@ -67,8 +66,6 @@ export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case types.UPDATE_CLIPS:
 			return { ...state, clips: action.payload };
-		case types.COLOR:
-			return { ...state, color: action.payload };
 		case types.CHANGE_CURRENT_STEP:
 			return { ...state, currentStep: action.payload };
 		case types.ADD_THINGS:
@@ -86,18 +83,12 @@ export default function reducer(state = initialState, action) {
 			// Update Tracks
 			newTracks[trackNumber].pattern.splice(number, 1, updatedActive);
 			return { ...state, tracks: newTracks };
-		case types.CHANGE_TEMPO:
-			return { ...state, tempo: action.payload };
 		case types.IS_LOADING:
 			return { ...state, isLoading: action.payload };
 		case types.READY:
 			return { ...state, ready: action.payload };
 		case types.PLAY_PAUSE:
 			return { ...state, isPlaying: action.payload };
-		case types.ADD_TEMPO:
-			return { ...state, tempo: state.tempo + 1 };
-		case types.DECREASE_TEMPO:
-			return { ...state, tempo: state.tempo - 1 };
 		default:
 			return state;
 	}

@@ -1,4 +1,3 @@
-import { h, Component } from 'preact';
 import Sequencer from '../components/Sequencer';
 import configureStore from '../store/configureStore';
 import { Provider } from 'preact-redux';
