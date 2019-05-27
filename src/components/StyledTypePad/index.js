@@ -9,7 +9,6 @@ const StyledTypePad = styled.div.attrs({
 	transition: box-shadow 0.3s;
 	z-index: 97;
 	opacity: ${props => props.opacity};
-	transition: opacity 0.4s;
 `;
 
 const getColor = type => {
