@@ -12,8 +12,8 @@ const animation = keyframes`
 const Overlay = styled.div`
   position: absolute;
   height: 95vh;
-  width: 7.5vw;
-  background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0) 100%);
+  width: 5.5vw;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0.3) 50%,rgba(255,255,255,0) 100%);
   z-index: 98;
   pointer-events: none;
   animation: ${animation};

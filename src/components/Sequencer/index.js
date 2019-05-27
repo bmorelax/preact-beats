@@ -52,7 +52,7 @@ class Sequencer extends Component {
 		this.bumpkit.buffers = {};
 		samples.forEach((sample, i) => {
 			(index => {
-				let url = this.props.audioPath + '/' + sample;
+				let url = this.props.audioPath + '/' + sample.sound;
 				this.bumpkit.loadBuffer(url, buffer => {
 					buffers[index] = buffer;
 					buffers[index].url = url;

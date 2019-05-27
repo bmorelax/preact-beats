@@ -2,6 +2,7 @@ import { updateTracks } from '../../actions';
 import { Component } from 'preact';
 import { connect } from 'preact-redux';
 import styled from 'styled-components';
+import StyledTypePad from '../StyledTypePad';
 
 const StyledPad = styled.div.attrs({
 	style: props => ({
@@ -29,26 +30,17 @@ class Pad extends Component {
 
 	shouldComponentUpdate(nextProps) {
 		let activeChanged = nextProps.active !== this.props.active;
-		let currentStepChanged = nextProps.currentStep !== this.props.currentStep;
-		return activeChanged || currentStepChanged;
+		return activeChanged;
 	}
 
-	render({ active, currentStep, number }) {
-		if (currentStep === number && active) {
-			return (
-				<StyledPad
-					bg="#fff"
-					onClick={this.updateTrackHelper}
-				/>
-			);
-		}
-		else if (active) {
-			return <StyledPad bg="#eaeaeb" onClick={this.updateTrackHelper} />;
+	render({ active, number, type }) {
+		if (active) {
+			return <StyledTypePad type={type} active={active} updateTrackHelper={this.updateTrackHelper} />;
 		}
 		else if (number % 8 === 0) {
-			return <StyledPad bg="#005d57" onClick={this.updateTrackHelper} />;
+			return <StyledPad bg="#1b1b22" onClick={this.updateTrackHelper} />;
 		}
-		return <StyledPad bg="#1eb980" onClick={this.updateTrackHelper} />;
+		return <StyledTypePad type={type} active={active} updateTrackHelper={this.updateTrackHelper} />;
 	}
 }
 

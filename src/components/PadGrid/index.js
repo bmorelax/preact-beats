@@ -16,13 +16,14 @@ const GridContainer = styled.div`
 `;
 
 class PadGrid extends Component {
-	render({ loopLength, tracks, isPlaying }) {
+	render({ loopLength, tracks, isPlaying, samples }) {
 		return (
 			<GridContainer loopLength={loopLength} tracks={tracks}>
 				{ isPlaying ? <Overlay /> : null }
-				{this.props.tracks.map((track, trackNumber) =>
+				{tracks.map((track, trackNumber) =>
 					track.pattern.map((pads, key) => (
 						<Pad
+							type={samples[trackNumber].type}
 							tracks={tracks}
 							number={key}
 							active={pads}
