@@ -35,10 +35,10 @@ const initialState = {
 	isPlaying: false,
 	kit: {
 		samples: [
-			{ type: 'synth', sound: 'SynthBell_1' },
-			{ type: 'synth', sound: 'SynthBell_2' },
-			{ type: 'synth', sound: 'SynthBell_3' },
-			{ type: 'synth', sound: 'SynthBell_4' },
+			{ type: 'synth', sound: 'SynthBell_1.mp3' },
+			{ type: 'synth', sound: 'SynthBell_2.mp3' },
+			{ type: 'synth', sound: 'SynthBell_3.mp3' },
+			{ type: 'synth', sound: 'SynthBell_4.mp3' },
 			{ type: 'snare', sound: 'snareRoll.wav' },
 			{ type: 'synth', sound: 'synthReverb.wav' },
 			{ type: 'kick',  sound: 'kick2.wav' },
