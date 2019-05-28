@@ -3,12 +3,15 @@ import styled from 'styled-components';
 const StyledTypePad = styled.div.attrs({
 	style: props => ({
 		background: getColor(props.type),
-		opacity: props.active ? '1' : '0.4'
+		opacity: props.active ? '1' : '0.15'
 	})
 })`
-	transition: box-shadow 0.3s;
+	transition: box-shadow 0.1s;
 	z-index: 97;
-	opacity: ${props => props.opacity};
+	border-radius: 20%;
+	height: 4vh;
+	width: 1vw;
+	box-shadow: ${props => props.active ? '0 3px 23px' : ''} ${props => getColor(props.type)};
 `;
 
 const getColor = type => {
@@ -27,13 +30,21 @@ const getColor = type => {
 			color = '#72DEFF';
 			break;
 		default:
-			color = '#1EB980';
+			color = '#FFFFFF';
 	}
 	return color;
 };
 
+const Container = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
+
 const RenderStyledTypePad = ({ type, active, updateTrackHelper }) => (
-	<StyledTypePad type={type} active={active} onClick={updateTrackHelper} />
+	<Container>
+		<StyledTypePad type={type} active={active} onClick={updateTrackHelper} />
+	</Container>
 );
 
 export default RenderStyledTypePad;

@@ -1,6 +1,6 @@
 import { Component } from 'preact';
 import styled from 'styled-components';
-import Pad from '../Pad';
+import Pads from '../Pads';
 import Overlay from '../Overlay';
 
 const GridContainer = styled.div`
@@ -9,7 +9,7 @@ const GridContainer = styled.div`
 	grid-row-gap: 1px;
 	grid-template-columns: ${props => `repeat(${props.loopLength}, 1fr)`};
 	grid-template-rows: ${props => `repeat(${props.tracks}, 1fr)`};
-	height: 90vh;
+	height: 95vh;
 	justify-items: stretch;
 	width: 100vw;
 	overflow: hidden;
@@ -22,7 +22,7 @@ class PadGrid extends Component {
 				{ isPlaying ? <Overlay /> : null }
 				{tracks.map((track, trackNumber) =>
 					track.pattern.map((pads, key) => (
-						<Pad
+						<Pads
 							type={samples[trackNumber].type}
 							tracks={tracks}
 							number={key}
