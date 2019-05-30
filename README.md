@@ -6,3 +6,5 @@ Built with [Preact](https://github.com/preactjs/preact), [Redux](https://github.
 and [Bumpkit](http://jxnblk.com/bumpkit/)
 
 ## Check it out live:
+
+[Live](https://preact-beats.netlify.com/)
