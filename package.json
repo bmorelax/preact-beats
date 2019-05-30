@@ -3,7 +3,6 @@
   "name": "preact-beats",
   "version": "0.0.1",
   "license": "MIT",
-  "homepage": "https://carstenbehrens.github.io/preact-beats/",
   "scripts": {
     "start": "per-env",
     "start:production": "npm run -s serve",
