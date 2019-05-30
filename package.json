@@ -3,6 +3,7 @@
   "name": "preact-beats",
   "version": "0.0.1",
   "license": "MIT",
+  "homepage": "https://carstenbehrens.github.io/preact-beats/",
   "scripts": {
     "start": "per-env",
     "start:production": "npm run -s serve",
@@ -11,7 +12,9 @@
     "serve": "preact build && preact serve",
     "dev": "preact watch",
     "lint": "eslint src",
-    "test": "jest"
+	"test": "jest",
+	"predeploy": "yarn build",
+ 	"deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "eslint-config-synacor"
@@ -22,6 +25,7 @@
   "devDependencies": {
     "eslint": "^4.9.0",
     "eslint-config-synacor": "^2.0.2",
+    "gh-pages": "^2.0.1",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^21.2.1",
     "node-sass": "^4.12.0",
